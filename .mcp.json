@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "local": {
+      "command": "bun",
+      "args": ["run", "mcp"],
+      "env": {}
+    },
+    "playwright": {
+      "command": "bunx",
+      "args": ["@playwright/mcp"],
+      "env": {}
+    }
+  }
+}

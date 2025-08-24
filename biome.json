@@ -1,0 +1,32 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!.wrangler",
+      "!**/components/ui/*",
+      "!**/hooks/use-toast.ts",
+      "!app/lib/route-tree.gen.ts",
+      "!dist"
+    ]
+  },
+  "formatter": {
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
+  },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUnusedImports": "error"
+      },
+      "nursery": {
+        "useSortedClasses": "error"
+      },
+      "recommended": true
+    }
+  }
+}
