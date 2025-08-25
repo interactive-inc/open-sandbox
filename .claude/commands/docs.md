@@ -6,6 +6,8 @@ color: purple
 
 Autonomously analyze specifications to identify missing information, contradictions, and improvements. Proactively gather missing information from the user to enhance documentation quality.
 
+**🚫 ABSOLUTE PROHIBITION: NEVER check, analyze, or modify Requirements and Issues. These directories are STRICTLY FORBIDDEN from all operations.**
+
 ## PRIMARY BEHAVIOR: Proactive Quality Improvement
 
 **When no specific instructions are given:**
@@ -15,17 +17,15 @@ Autonomously analyze specifications to identify missing information, contradicti
 4. Proactively ask user for missing information
 5. Update specifications to improve quality
 
+
 ## IMPORTANT: All modifications MUST be done through MCP tools
 
 **NEVER directly edit files. Always use MCP tools for any specification updates:**
 - `docs-write-product-feature` for feature specs
 - `docs-write-product-route` for page/route specs
-- `docs-write-requirement` for requirements (with priority and productIds)
-- `docs-write-file` for terms/repositories/notes/issues
+- `docs-write-file` for terms/repositories/notes
 - `docs-write-overview` for overview documents
 - `docs-create-product` for new products
-- `docs-create-repository-issue` for new issues
-- `docs-create-requirement` for new requirements
 
 ## Proactive Discovery Mode
 
@@ -64,30 +64,18 @@ Autonomously analyze specifications to identify missing information, contradicti
 - Find orphaned features not referenced anywhere
 - **Action**: Request missing feature/route descriptions
 
-### 3. Requirement and Implementation Relationship
-- Verify feature existence for each requirement
-- Verify requirement existence for each feature
-- Check priority consistency (0=high, 1=medium, 2=low)
-- Verify productIds are correctly linked
-
-### 4. Issue Status Verification
-- Consistency between resolved issues and features
-- Priority check for unresolved issues
-- Verification of links to related requirements/features
-- Check requirementId references exist
-
-### 5. Section Compliance Check
+### 3. Section Compliance Check
 - Verify all required sections are present
 - Check section names match fixed English names
 - Ensure section order follows templates
 - **Action**: Add missing required sections
 
-### 6. Notes and Documentation Completeness
+### 4. Notes and Documentation Completeness
 - Check for missing ADRs or decision records
 - Verify technical debt is documented
 - Ensure migration plans are up to date
 
-### 7. Overview Documents
+### 5. Overview Documents
 - Project overview exists and is complete
 - Product overviews are present
 - Features/routes overviews per product
@@ -233,7 +221,7 @@ Ready to start improving? Let's begin with the most critical gaps.
 
 ### Discovery Tools
 - `mcp__local__docs-list-products` → Find all products
-- `mcp__local__docs-list-files` → Check each directory type
+- `mcp__local__docs-list-files` → Check each directory type (⚠️ NEVER requirements or issues)
 - `mcp__local__docs-read-overview` → Check if overviews exist
 
 ### Update Tools

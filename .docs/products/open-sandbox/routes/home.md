@@ -1,16 +1,33 @@
 ---
-features: []
+features:
+  - edit-hooks
+  - select-matcher
+  - json-sync
 ---
 
 # ホームページ
 
-open-sandboxアプリケーションのトップページ。右半分にJSONエディタを配置した2カラムレイアウト。
+Claude Code設定ファイル管理のメイン画面。2カラムレイアウトで設定編集とJSON表示を同時に行える。
 
 ## UI/UX
 
-2カラムレイアウトで構成：
-- 左側：メインコンテンツエリア
-- 右側：JSONエディタ（常時表示）
-  - JSONの貼り付けと編集が常に可能
-  - リアルタイムで内容を更新可能
-  - インポート/エクスポートボタンなし（直接編集のみ）
+### レイアウト
+- **左側**: GUI設定エリア（タブ切り替え）
+  - Hooksタブ: PreToolUse/PostToolUseの設定
+  - 基本設定タブ: Permissions、MCPサーバー、Output Style
+- **右側**: JSONエディタ（sticky表示）
+  - リアルタイム同期
+  - コピー&ペースト対応
+
+### Hooksタブ
+- PreToolUse/PostToolUseセクション
+- 各Hookに対して：
+  - Matcher選択（ドロップダウン/コンボボックス）
+  - jqコマンドエディタ（複数行）
+  - 削除ボタン
+- 新規Hook追加ボタン
+
+### 基本設定タブ
+- Permissionsモード（ラジオボタン）
+- MCPサーバー有効化（スイッチ）
+- Output Style入力（テキストフィールド）
