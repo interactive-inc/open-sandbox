@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "test": "bun test",
     "check": "tsgo",
-    "format": "biome check . --fix --unsafe && prisma format"
+    "format": "biome check . --fix --unsafe"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

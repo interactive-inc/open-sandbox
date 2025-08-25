@@ -5,8 +5,8 @@
       "**",
       "!.wrangler",
       "!**/components/ui/*",
-      "!**/hooks/use-toast.ts",
-      "!app/lib/route-tree.gen.ts",
+      "!**/hooks/use-mobile.ts",
+      "!**/route-tree.gen.ts",
       "!dist"
     ]
   },
@@ -16,6 +16,11 @@
   "javascript": {
     "formatter": {
       "semicolons": "asNeeded"
+    }
+  },
+  "css": {
+    "linter": {
+      "enabled": false
     }
   },
   "linter": {
