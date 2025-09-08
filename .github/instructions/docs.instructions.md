@@ -2,36 +2,230 @@
 applyTo: "**"
 ---
 
-# Documentation-Driven Development MCP Tools
+# Documentation Rules
 
-## MCP Tool Technical Specification
+仕様書を読み書きしながら開発を進める開発手法を実現する。MCPツールを使用して製品機能、ルート、要件、リポジトリ、用語、課題の文書化を統一された形式で行い、開発と仕様書を常に同期させる。
 
-This document defines the technical specifications for MCP tools, data formats, and parameters.
-For AI behavior and interaction patterns, see claude.output-styles/docs.md.
+## 開発中の仕様書活用
 
-## MCP Tool Reference
+### 開発フロー
 
-### Route Specification Rules (docs-write-product-route)
-When using `docs-write-product-route`, follow these conventions:
+開発時は以下の流れで仕様書を活用する：
 
-#### File Naming
+1. **開発前** - 関連する仕様書を読み取り、現在の仕様を理解
+2. **開発中** - 実装と仕様の齟齬を発見したら仕様書を更新
+3. **開発後** - 新機能や変更内容を仕様書に反映
+
+### 仕様書確認のタイミング
+
+- 新機能実装前：関連するfeatures, routes, termsを読み取り
+- API実装前：関連するrepositories, requirementsを確認
+- UI実装前：関連するroutesを確認
+- 不明な用語発見時：termsで定義を確認、なければ追加
+- バグ修正時：関連issuesを確認・更新
+
+### 実装と仕様の同期
+
+- 仕様と実装が異なる場合は仕様書を更新
+- 新しい概念や用語が出たらtermsに追加
+- 設計決定はnotesに記録
+- 課題や改善点はissuesに記録
+
+## 対話
+
+### 対話を通じた情報収集
+
+空のドキュメントや欠落した仕様を発見した場合、一度に一つずつ積極的に情報を収集する。
+
+**重要**: 複数の質問を同時にしない。必ず一つの質問をして回答を待ち、その後次の質問をする。
+
+**必須項目（積極的にユーザに確認 - 一度に一つずつ）**:
+- 空のリポジトリ → 「メインのリポジトリは何ですか？」（他は徐々に追加）
+- 空のルート → 「この製品のメインページは何ですか？」（段階的に追加）
+- 空の機能 → 「最も重要な機能は何ですか？」（リストを徐々に構築）
+- 空の製品 → 「主要な製品は何ですか？」（他を段階的に文書化）
+- 空のプロジェクト概要 → 「このプロジェクトは何をするものですか？」（ユーザ/価値は別途確認）
+- 欠落した用語 → 「[用語]とは何を意味しますか？」（一度に一つの用語を定義）
+- 不明な関係性 → 「[A]と[B]はどのように関連していますか？」（一度に一つの関係性）
+
+### 確認が必要な場面
+
+**必ず確認**:
+- 矛盾の解決方法
+- 優先度の決定
+- 重大な変更
+- 仕様の削除
+- 製品の削除（「全ての機能とルートが削除されます。よろしいですか？」）
+- 推測した内容（「[X]として理解しました。正しいですか？」）
+- 曖昧な要件（「[A]または[B]の意味だと思われます。どちらを意図されていますか？」）
+- MCPツールでのファイル書き込み前
+
+### ファイル書き込み確認フロー
+
+1. **内容を表示**: 「以下の内容で書き込みます」と実際の内容を提示
+2. **理解を確認**: 「[X]として理解しました。合っていますか？」
+3. **承認を待つ**: 明示的なOKを待つ
+4. **書き込み実行**: 承認後にMCPツールを実行
+
+### 確認フレーズ例
+
+- 「以下の内容で[ファイルID]に書き込みます。よろしいですか？」
+- 「[推測した内容]として理解しました。この認識で正しいですか？」
+- 「書き込む前に確認: [要約]。問題ありませんか？」
+
+### 文書構造規則
+
+文書作成と更新時は明確な構造とセクション名を使用する。セクション名は英語で統一し、内容は日本語で記述する。必須セクションは指定された順序で含め、オプションセクションは必要に応じて追加する。
+
+## Tools
+
+### ファイルのID
+
+以下のツールでファイルのIDを取得します。
+
+- `docs-list-files` - repositories, requirements, terms, issues, notes
+- `docs-list-products` - 全製品のIDと概要情報
+- `docs-list-product-files` - 特定製品のファイルのID（features, routes, entities, notes）
+- `docs-list-repository-issues` - 特定リポジトリのIssueのIDを取得
+
+読み書き操作前に必ずリストして正しいIDを取得する。
+
+### docs-write-product-route
+
+ルートパス → pageIDの変換規則:
+
+- `/` → `home.md`
+- `/about` → `about.md`  
+- `/a/b` → `a.b.md`
+- `/users/profile` → `users.profile.md`
+
+### docs-create-product
+
+作成される構造:
+
 ```
-Route Path     → pageId (File Name)
-/              → home.md
-/about         → about.md  
-/a/b           → a.b.md
-/users/profile → users.profile.md
+products/
+  [productId]/
+    index.md          # 製品概要
+    features/
+      index.md        # 機能概要
+    routes/
+      index.md        # ルート概要
 ```
 
-#### MCP Tool Parameters
-- `productId`: Product ID (required)
-- `pageId`: Page ID to write or update (required)
-- `relatedFeatureIds`: Array of related feature IDs (required)
-- `markdown`: Markdown content (required)
+### docs-delete-product
 
-#### Document Structure (markdown parameter)
-**Required sections**: Title, Description, UI/UX
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
+削除される内容:
+
+- 製品概要（index.md）
+- 全機能と機能概要
+- 全ルートとルート概要
+
+## ファイルのマークダウン
+
+重要:セクション名は固定で変更不可。以下の英語名を正確に使用する
+- 必須セクションは指定順序で含める
+- オプションセクション（"Optional"マーク付き）は省略可能だが使用時は正確な名前を使用
+- セクション名の翻訳や変更は禁止
+- テンプレートで指定されていないセクションの追加は禁止
+- 言語規則:セクションヘッダーは英語、内容は日本語で記述
+  - 例:`## Features`（ヘッダー英語） → 機能説明は日本語で記述
+
+### Project Overview Files
+
+プロジェクト全体の概要を記述し、提供価値、製品一覧、ターゲットユーザを整理した文書
+
+#### 形式
+
+```markdown
+# [Project Name]
+
+[One-line description of what this project offers to users]
+
+## What We Provide
+
+[Brief overview of the services and value this project delivers]
+
+## Products
+
+### [Product A Name]
+[Brief description of what this product does and who uses it]
+
+## Target Users
+
+[Who this project serves and their primary needs]
+- User Type A: [Their needs]
+- User Type B: [Their needs]
+
+## Core Value Proposition
+
+[What makes this project unique and valuable]
+
+## Context (Optional)
+
+[Important background or decisions that shaped the project]
+```
+
+### Products Overview Files  
+
+製品群の関係性や依存関係、データフローを整理した概要文書
+
+#### 形式
+
+```markdown
+# Products Overview
+
+[Brief description of all products in the system]
+
+## Product Relationships
+
+[How products interact and depend on each other]
+- Product A → Product B relationship
+- Shared components or services
+- Data flow between products
+
+## Architecture Context (Optional)
+
+[High-level system architecture if relevant]
+```
+
+### Features Files
+
+個別機能の手順や動作を番号付きリストで記述した機能仕様書
+
+#### ファイル命名規約
+
+`view-*`, `list-*`, `create-*`, `delete-*`, `add-*`, `remove-*`, `update-*`, `show-*`, `search-*`
+
+#### 形式
+
+```markdown
+# [Feature Name (Action XXX)]
+
+[Feature purpose and overview in 1-2 sentences]
+
+1. [主体]が[アクション]を実行
+2. [主体]が[アクション]を実行
+3. [次のステップ]
+
+## Context (Optional)
+
+[Why this feature was designed this way]
+
+## Note A (Optional)
+
+[Additional information as needed]
+```
+
+### Routes Files
+
+各ページやURLの目的と基本的な機能を記述したルート仕様書。詳細なUI仕様ではなく、何のためのページかが分かる最低限の情報を記録する。
+
+#### ファイル命名規約
+
+ルートパス → pageId: `/` → home.md, `/about` → about.md, `/a/b` → a.b.md
+
+#### 形式
 
 ```markdown
 # [Page Name]
@@ -51,236 +245,15 @@ Minimal UI/UX information needed.
 [Additional information as needed]
 ```
 
-### Discovery Operations → Get IDs
-```
-docs-list-files           → Get IDs from root directories (repositories, requirements, terms, issues, notes)
-docs-list-products        → Get all product IDs and their overview info
-docs-list-product-files   → Get feature/route IDs from specific product
-docs-list-repository-issues → Get issue IDs for specific repository
+### Repositories Files
 
-Always list before read/write operations to retrieve correct IDs
-```
+リポジトリの責任範囲、依存関係、アーキテクチャ決定を記述した文書
 
-### Read Operations
-```
-docs-read-files          : Read multiple documents from root directory
-docs-read-overview       : Read overview (type: "project" for project overview)
-docs-read-product-features : Read multiple features from a specific product
-docs-read-product-routes  : Read multiple routes from a specific product
-docs-read-product-overview : Read overview from product subdirectories (features/routes)
-```
+#### ファイル命名規約
 
-### Write/Update Operations
-```
-docs-write-file              : Write or update files in terms/repositories/notes/issues directories
-docs-write-product-feature    : Write or update a product feature
-docs-write-product-route      : Write or update a product route page
-docs-write-product-overview   : Write or update overview in product subdirectories
-docs-write-requirement        : Write or update a requirement definition (with priority and productIds)
-docs-write-overview          : Write or update overview (type: "project" for project overview)
-```
+リポジトリ名を使用 `frontend-app.md`, `backend-api.md`
 
-### Create Operations
-```
-docs-create-product          : Create a new product with directory structure
-docs-create-repository-issue  : Create a new issue in a repository
-docs-create-requirement       : Create a new requirement definition
-```
-
-### Delete Operations
-```
-docs-delete-product        : Delete entire product and all its contents
-docs-delete-files          : Delete multiple documents (overview cannot be deleted)
-docs-delete-product-files  : Delete multiple features or routes from a specific product
-```
-
-### Product Management Operations
-
-#### Product Creation (docs-create-product)
-**MCP Tool Parameters**:
-- `productId`: Product ID (alphanumeric with hyphens) (required)
-- `productName`: Product display name (required)
-- `markdown`: Markdown content for product overview (required)
-
-**Creates the following structure**:
-```
-products/
-  [productId]/
-    index.md          # Product overview
-    features/
-      index.md        # Features overview
-    routes/
-      index.md        # Routes overview
-```
-
-#### Product Deletion (docs-delete-product)
-**MCP Tool Parameters**:
-- `productId`: Product ID to delete (required)
-
-**Deletes entire product directory including**:
-- Product overview (index.md)
-- All features and their overview
-- All routes and their overview
-
-## Documentation Content Guidelines
-
-**Include in specs**: Business requirements, user stories, feature overview, constraints, interfaces, error strategy
-
-**Exclude from specs**: Algorithms, class structures, code examples, performance tuning, workarounds
-
-**Note**: Use `type: "project"` parameter to access overall project overview.
-
-## Spec Types & Writing Rules
-
-### Section Naming Rules
-**IMPORTANT**: All section names are fixed and cannot be changed. Use exact English names as specified below.
-- Required sections must be included in the specified order
-- Optional sections (marked with "Optional") can be omitted but must use exact names when included
-- Do not translate or modify section names
-- Do not add sections not specified in the templates
-- **Language Rule**: Section headers must be in English, but content must be written in Japanese
-  - Example: `## Features` (header in English) → Content describing features in Japanese
-  - This applies to ALL documentation types
-
-### Overview Rules (docs-write-overview, docs-write-product-overview)
-Each directory type has specific overview content requirements:
-
-#### Project Overview (type: "project")
-**Required sections**: Title, Description, What We Provide, Products, Target Users, Core Value Proposition
-**Optional sections**: Context
-
-```markdown
-# [Project Name]
-
-[One-line description of what this project offers to users]
-
-## What We Provide
-
-[Brief overview of the services and value this project delivers]
-
-## Products
-
-### [Product A Name]
-[Brief description of what this product does and who uses it]
-
-### [Product B Name]
-[Brief description of what this product does and who uses it]
-
-### [Product C Name]
-[Brief description of what this product does and who uses it]
-
-## Target Users
-
-[Who this project serves and their primary needs]
-- User Type A: [Their needs]
-- User Type B: [Their needs]
-
-## Core Value Proposition
-
-[What makes this project unique and valuable]
-
-## Context (Optional)
-
-[Important background or decisions that shaped the project]
-```
-
-#### Products Overview (type: "products")
-**Required sections**: Title, Description, Product Relationships
-**Optional sections**: Architecture Context
-
-```markdown
-# Products Overview
-
-[Brief description of all products in the system]
-
-## Product Relationships
-
-[How products interact and depend on each other]
-- Product A → Product B relationship
-- Shared components or services
-- Data flow between products
-
-## Architecture Context
-
-[High-level system architecture if relevant]
-```
-
-#### Features Overview (product subdirectory)
-**Required sections**: Title, Description, Core Features
-**Optional sections**: Feature Categories
-
-```markdown
-# Features Overview
-
-[High-level summary of what this product does]
-
-## Core Features
-
-[Brief list of main features with one-line descriptions]
-- Feature A: [Brief description]
-- Feature B: [Brief description]
-
-## Feature Categories
-
-[How features are organized or grouped]
-```
-
-#### Routes Overview (product subdirectory)
-**Required sections**: Title, Description, Authentication Flow, Page Hierarchy
-**Optional sections**: Navigation Context
-
-```markdown
-# Routes Overview
-
-[Navigation structure and page flow]
-
-## Authentication Flow
-
-[Which routes require authentication]
-- Public routes: [list]
-- Protected routes: [list]
-
-## Page Hierarchy
-
-[How pages connect and flow]
-- Landing → Dashboard → Details
-- User flow patterns
-
-## Navigation Context
-
-[Special navigation rules or patterns]
-```
-
-#### Repositories Overview (type: "repositories")
-**Required sections**: Title, Description, Repository Relationships
-**Optional sections**: Technology Stack
-
-```markdown
-# Repositories Overview
-
-[Purpose and structure of repositories]
-
-## Repository Relationships
-
-[How repositories depend on each other]
-- Frontend → API dependencies
-- Shared libraries
-- Deployment relationships
-
-## Technology Stack
-
-[Brief overview of tech used across repos]
-```
-
-### Repository Documentation Rules (docs-write-file with type: "repositories")
-
-#### File Naming Convention
-- Use repository name as fileId: `frontend-app.md`, `backend-api.md`
-- Match actual repository names from version control
-
-#### Document Structure (markdown parameter)
-**Required sections**: Title, Description, Responsibility, Dependencies, Architecture Decisions
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
+#### 形式
 
 ```markdown
 # [Repository Name]
@@ -317,87 +290,11 @@ Each directory type has specific overview content requirements:
 [Additional specification-relevant information]
 ```
 
-### Term Definition Rules (docs-write-term)
-**Required sections**: Title, Definition, Examples
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
+### Requirements Files  
 
-```markdown
-# [Term Name]
+システムの横断的な要件や制約、受入基準を定義した文書
 
-[Concise and accurate definition of the term]
-
-## Examples
-
-[Specific examples or use cases of the term]
-
-## Context (Optional)
-
-[How this term was decided or evolved]
-
-## Note A (Optional)
-
-[Additional information as needed]
-```
-
-**Guidelines**:
-- Keep definitions clear and concise
-- Include examples that non-experts can understand
-- Clarify differences from common terminology
-- Exclude general technical information that AI already knows
-
-### Feature Specification Rules (docs-write-product-feature)
-
-#### MCP Tool Parameters
-- `productId`: Product ID (required)
-- `featureId`: Feature ID to write or update (required)
-- `markdown`: Markdown content (required)
-
-#### File Naming Convention (featureId)
-- `view-*` - View details
-- `list-*` - List items
-- `create-*` - Create new
-- `delete-*` - Delete existing
-- `add-*` - Add to array
-- `remove-*` - Remove from array
-- `update-*` - Update existing
-- `show-*` - Show details
-- `search-*` - Search functionality
-- Others like `import`, `archive` as needed
-- Avoid broad verbs like `manage`
-
-#### Document Structure (markdown parameter)
-**Required sections**: Title, Description, Steps (numbered list)
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
-
-```markdown
-# [Feature Name (Action XXX)]
-
-[Feature purpose and overview in 1-2 sentences]
-
-1. [主体]が[アクション]を実行
-2. [主体]が[アクション]を実行
-3. [次のステップ]
-
-## Context (Optional)
-
-[Why this feature was designed this way]
-
-## Note A (Optional)
-
-[Additional information as needed]
-```
-
-### Requirement Creation Rules (docs-create-requirement)
-
-#### MCP Tool Parameters
-- `requirementSlug`: Requirement slug (alphanumeric with hyphens) (required)
-- `markdown`: Markdown content (required)
-- `priority`: Requirement priority (0: high, 1: medium, 2: low) (required)
-- `productIds`: Array of related product IDs (required)
-
-#### Document Structure (markdown parameter)
-**Required sections**: Title, Description, Details, Acceptance Criteria
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
+#### 形式
 
 ```markdown
 # [Requirement Name]
@@ -423,17 +320,11 @@ Each directory type has specific overview content requirements:
 [Additional information as needed]
 ```
 
-### Issue Creation Rules (docs-create-repository-issue)
+### Issues Files
 
-#### MCP Tool Parameters
-- `repositoryId`: Repository ID (required)
-- `issueSlug`: Issue slug (alphanumeric with hyphens) (required)
-- `markdown`: Markdown content (required)
-- `requirementId`: Related requirement ID (optional)
+実装ギャップや改善が必要な課題、バグ、技術的問題を記録した文書
 
-#### Document Structure (markdown parameter)
-**Required sections**: Title, Description, Details
-**Optional sections**: Context, Note A (can have multiple: Note A, Note B, etc.)
+#### 形式
 
 ```markdown
 # [Issue Name]
@@ -453,26 +344,39 @@ Each directory type has specific overview content requirements:
 [Additional information as needed]
 ```
 
-### Notes Specification Rules (docs-write-file with directory: "notes")
+### Terms Files
 
-#### Purpose
-Notes are supplementary documentation for:
-- Development decisions and rationale
-- Technical debt tracking
-- Meeting minutes and discussions
-- Research findings
-- Migration plans
-- Architecture Decision Records (ADRs)
-- Temporary workarounds with context
+プロジェクトで使用する専門用語やドメイン概念の定義と具体例を記述した辞書
 
-#### File Naming Convention
-- Use descriptive slugs: `2025-01-migration-plan.md`
-- Date prefixes for time-sensitive notes: `YYYY-MM-DD-topic.md`
-- Category prefixes: `adr-001-database-choice.md`, `meeting-2025-01-15.md`
+#### 形式
 
-#### Document Structure
-**Required sections**: Title, Description, Background, Content
-**Optional sections**: Decisions, Action Items, Context
+```markdown
+# [Term Name]
+
+[Concise and accurate definition of the term]
+
+## Examples
+
+[Specific examples or use cases of the term]
+
+## Context (Optional)
+
+[How this term was decided or evolved]
+
+## Note A (Optional)
+
+[Additional information as needed]
+```
+
+### Notes Files
+
+開発決定、技術負債、議事録、調査結果、ADRなどの補足情報を記録したメモ文書
+
+#### ファイル命名規約
+
+記述的スラッグ `migration-plan.md`、`database-choice.md`
+
+#### 形式
 
 ```markdown
 # [Note Title]
@@ -499,34 +403,3 @@ Notes are supplementary documentation for:
 
 [Additional historical context]
 ```
-
-### Unified File Writing (docs-write-file)
-
-#### MCP Tool Parameters
-- `type`: Type of document to write ("terms", "repositories", "notes", "issues") (required)
-- `fileId`: File ID to write or update (required)
-- `markdown`: Markdown content (required)
-
-#### Usage Examples
-```
-# Write a term definition
-docs-write-file(type: "terms", fileId: "user-session", markdown: "...")
-
-# Write a repository document
-docs-write-file(type: "repositories", fileId: "frontend-app", markdown: "...")
-
-# Write a note
-docs-write-file(type: "notes", fileId: "2025-01-migration-plan", markdown: "...")
-
-# Write an issue (replaces docs-write-repository-issue)
-docs-write-file(type: "issues", fileId: "2025.01.15.performance-issue", markdown: "...")
-```
-
-### Summary
-- **Feature**: User value unit (auth, search, notifications)
-- **Route/Page**: Single URL/screen functionality
-- **Requirement**: Cross-cutting constraints
-- **Issue**: Implementation gaps/improvements
-- **Term**: Domain concepts & definitions
-- **Repository**: Codebase documentation
-- **Note**: Supplementary documentation and decisions
