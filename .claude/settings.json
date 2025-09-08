@@ -30,23 +30,11 @@
           {
             "type": "command",
             "command": "jq -r 'if .tool_input.file_path | test(\"src/components/ui/|src/hooks/use-mobile\\\\.ts$|src/lib/utils\\\\.ts$\") then {\"decision\": \"block\", \"reason\": \"not allowed - protected file\"} else empty end'"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "jq -r '.tool_input.file_path | select(endswith(\".ts\") or endswith(\".tsx\"))' | xargs -r bun run format"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
+          },
           {
             "type": "command",
             "command": "jq -r '.tool_input.file_path | select(endswith(\".ts\") or endswith(\".tsx\"))' | xargs -r bun run test"
