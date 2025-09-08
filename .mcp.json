@@ -2,7 +2,7 @@
   "mcpServers": {
     "local": {
       "command": "bun",
-      "args": ["run", "mcp"],
+      "args": ["run", ".mcp"],
       "env": {}
     },
     "playwright": {
