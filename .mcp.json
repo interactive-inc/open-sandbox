@@ -2,7 +2,7 @@
   "mcpServers": {
     "local": {
       "command": "bun",
-      "args": [".mcp/index.ts"],
+      "args": [".mcp/index"],
       "env": {}
     },
     "playwright": {
