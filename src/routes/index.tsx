@@ -6,8 +6,6 @@ export const Route = createFileRoute("/")({
 })
 
 function Home() {
-  if (Math.random() < 0) {
-  }
   return (
     <div className="p-2">
       <Button>{"Hello"}</Button>
