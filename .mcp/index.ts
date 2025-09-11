@@ -18,15 +18,15 @@ import { docsListProducts } from "./tools/docs-list-products"
 import { docsListRepositoryIssues } from "./tools/docs-list-repository-issues"
 import { docsReadFiles } from "./tools/docs-read-files"
 import { docsReadOverview } from "./tools/docs-read-overview"
+import { docsReadProductFiles } from "./tools/docs-read-product-files"
 import { docsReadProductOverview } from "./tools/docs-read-product-overview"
 import { docsReadProductRoutes } from "./tools/docs-read-product-routes"
 import { docsWriteFile } from "./tools/docs-write-file"
 import { docsWriteOverview } from "./tools/docs-write-overview"
+import { docsWriteProductFile } from "./tools/docs-write-product-file"
 import { docsWriteProductOverview } from "./tools/docs-write-product-overview"
 import { docsWriteProductRoute } from "./tools/docs-write-product-route"
 import { docsWriteRequirement } from "./tools/docs-write-requirement"
-import { docsReadProductFiles } from "./tools/docs-read-product-files"
-import { docsWriteProductFile } from "./tools/docs-write-product-file"
 
 export const server = new Server(
   { name: "local", version: "0.1.0" },

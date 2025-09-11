@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { withHeader } from "../lib"
-import type { CallToolResultContent } from "../types"
 import { tool } from "../tool"
+import type { CallToolResultContent } from "../types"
 
 export const docsReadFiles = tool({
   name: "docs-read-files",
