@@ -1,6 +1,7 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "bypassPermissions",
+    "deny": ["Read(.docs)"]
   },
   "enableAllProjectMcpServers": true,
   "outputStyle": "ts",
@@ -12,15 +13,6 @@
           {
             "type": "command",
             "command": "jq -r 'if .tool_input.command | test(\"bun run dev\") then {\"decision\": \"block\", \"reason\": \"not allowed\"} else empty end'"
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r 'if .tool_input.file_path | test(\"^\\\\.docs/\") then {\"decision\": \"block\", \"reason\": \"not allowed\"} else empty end'"
           }
         ]
       },

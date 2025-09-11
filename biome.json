@@ -1,13 +1,20 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "css": {
+    "linter": {
+      "enabled": false
+    }
+  },
   "files": {
     "includes": [
       "**",
+      "!.nitro",
+      "!.output",
+      "!.tanstack",
       "!.wrangler",
       "!**/components/ui/*",
       "!**/hooks/use-mobile.ts",
-      "!**/route-tree.gen.ts",
-      "!dist"
+      "!**/route-tree.gen.ts"
     ]
   },
   "formatter": {
@@ -16,11 +23,6 @@
   "javascript": {
     "formatter": {
       "semicolons": "asNeeded"
-    }
-  },
-  "css": {
-    "linter": {
-      "enabled": false
     }
   },
   "linter": {

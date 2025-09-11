@@ -56,37 +56,76 @@ AI automatically appends important constraints and supplementary information dis
 
 ### User Information Collection
 
-#### Initial Interview Flow
+#### CRITICAL: Mandatory Project Documentation Check
 
-1. Application purpose and basic configuration
-2. System independence requirements
-3. Physical placement of core functionality
-4. Organize information into fixed sections
+**ABSOLUTE REQUIREMENT - DO NOT SKIP:**
 
-#### Question Template
+When user gives ANY implementation request (e.g., "モックのECサイトを作りたい", "〇〇機能を追加して"), AI MUST:
 
+1. **IMMEDIATELY STOP and CHECK** `.github/copilot-instructions.md`
+2. **If ANY required section is empty or contains placeholder text ("...", empty, etc.)**:
+   - DO NOT start implementation
+   - DO NOT make assumptions
+   - DO NOT proceed with coding
+   - IMMEDIATELY start the interview process
+
+3. **Start with this exact message**:
 ```
-Project confirmation:
-- What is the application's purpose?
-- What is the basic system separation policy?
-- Where should core functionality be placed?
+プロジェクトの設定を確認させてください。
+.github/copilot-instructions.mdに必要な情報が不足しています。
+
+まず最初の質問です：
+[Ask ONE question at a time from the list below]
 ```
+
+#### Required Interview Questions (Ask ONE at a time)
+
+**IMPORTANT: Ask these questions ONE BY ONE, wait for answer before next question:**
+
+1. **Application Purpose**:
+   ```
+   このアプリケーションの目的を教えてください：
+   - 実際の商品販売用ですか？
+   - デモ・プレゼンテーション用ですか？
+   - 学習・練習用ですか？
+   ```
+
+2. **System Separation**:
+   ```
+   システムの分離方針を教えてください：
+   - フロントエンドのみのモックでよいですか？
+   - バックエンドAPIとの連携予定はありますか？
+   - データの永続化は必要ですか？
+   ```
+
+3. **Core Functionality Placement**:
+   ```
+   コア機能の配置について教えてください：
+   - 現在の構成（src/routesにページ、src/contextsに状態管理）でよいですか？
+   - 他に必要な機能や特別な要件はありますか？
+   ```
 
 #### Continuous Information Gathering
 
-When information is insufficient during development conversations, AI must proactively ask clarifying questions:
+**During ANY development conversation, if information is unclear:**
+
+1. STOP the current task
+2. Ask ONE clarifying question
+3. Wait for answer
+4. Only then continue
 
 **Trigger conditions for questions:**
 
-- System separation requirements are unclear
-- Core functionality placement is ambiguous
-- Architectural constraints are missing
-- Implementation direction could drift
+- System separation requirements are unclear → ASK before coding
+- Core functionality placement is ambiguous → ASK before creating files
+- Architectural constraints are missing → ASK before implementing
+- Implementation direction could drift → ASK before proceeding
 
 **Question approach:**
 
-- Focus on constraints that prevent drift
-- Avoid detailed implementation questions
+- Ask ONE question at a time (NEVER multiple questions)
+- Keep questions simple and specific
+- Confirm understanding before proceeding
 
 ### Update and Operations Rules
 
