@@ -7,6 +7,6 @@ hono
   .get("/", (c) => {
     return c.json({ msg: "hello!!" })
   })
-  .get("/foo", (c) => {
-    return c.json({ msg: "foo!!" })
+  .get("/random", (c) => {
+    return c.json({ msg: Math.random() })
   })

@@ -4,7 +4,6 @@
     "deny": ["Read(.docs)"]
   },
   "enableAllProjectMcpServers": true,
-  "outputStyle": "ts",
   "hooks": {
     "PreToolUse": [
       {

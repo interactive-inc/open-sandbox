@@ -9,7 +9,8 @@
     "serve": "vite preview",
     "test": "bun test",
     "check": "tsgo",
-    "format": "biome check . --fix --unsafe"
+    "format": "biome check . --fix --unsafe",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
