@@ -40,7 +40,7 @@
     "@biomejs/biome": "^2.2.3",
     "@interactive-inc/docs": "^1.0.14",
     "@interactive-inc/docs-client": "^1.0.20",
-    "@modelcontextprotocol/sdk": "^1.18.1",
+    "@modelcontextprotocol/sdk": "^1.18.2",
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/router-plugin": "^1.131.36",
     "@types/bun": "^1.2.21",
