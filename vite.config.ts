@@ -9,9 +9,8 @@ export default defineConfig({
   plugins: [
     tanstackStart({
       spa: { enabled: true },
-      target: "cloudflare-module",
-      tsr: { generatedRouteTree: "src/route-tree.gen.ts" },
-      customViteReactPlugin: true,
+      // target: "cloudflare-module",
+      router: { generatedRouteTree: "route-tree.gen.ts" },
     }),
     viteReact(),
     tailwindcss(),
