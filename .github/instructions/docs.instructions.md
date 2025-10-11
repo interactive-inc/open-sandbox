@@ -12,10 +12,9 @@ applyTo: "**"
 
 以下のツールでファイルのIDを取得します。
 
-- `docs-list-files` - repositories, requirements, terms, issues, notes
+- `docs-list-files` - repositories, terms, notes
 - `docs-list-products` - 全製品のIDと概要情報
 - `docs-list-product-files` - 特定製品のファイルのID（features, routes, entities, notes）
-- `docs-list-repository-issues` - 特定リポジトリのIssueのIDを取得
 
 読み書き操作前に必ずリストして正しいIDを取得する。
 
@@ -209,60 +208,6 @@ products/
 ## Note A (Optional)
 
 [Additional specification-relevant information]
-```
-
-### Requirements Files  
-
-システムの横断的な要件や制約、受入基準を定義した文書
-
-#### 形式
-
-```markdown
-# [Requirement Name]
-
-[Requirement overview and purpose in 1-2 sentences]
-
-## Details
-
-[Detailed explanation of the requirement]
-
-## Acceptance Criteria
-
-- [Criterion 1]
-- [Criterion 2]
-- [Criterion 3]
-
-## Context (Optional)
-
-[Background or reasoning for this requirement]
-
-## Note A (Optional)
-
-[Additional information as needed]
-```
-
-### Issues Files
-
-実装ギャップや改善が必要な課題、バグ、技術的問題を記録した文書
-
-#### 形式
-
-```markdown
-# [Issue Name]
-
-[Issue overview in 1-2 sentences]
-
-## Details
-
-[Detailed explanation of the issue]
-
-## Context (Optional)
-
-[How this issue was discovered or why it needs addressing]
-
-## Note A (Optional)
-
-[Additional information as needed]
 ```
 
 ### Terms Files
